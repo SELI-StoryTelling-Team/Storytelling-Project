@@ -9,53 +9,28 @@ import java.util.Properties;
   
 public class DbManager {
   
-    private static final int LoginTimeout = 10;
+    public static final int LoginTimeout = 10;
+    private static final String ConfigFile = "config/db.properties";
   
-    public DbManager() {
-    	Connection connection;
-		try {
-			connection = createConnection();
-			connection.isValid(LoginTimeout);
-			if(connection.isValid(LoginTimeout))
-				System.out.println("You are connected!");
-		} catch (ClassNotFoundException | IOException | SQLException e) {
-			System.out.println(e.getMessage());
-		}
-    }
-  
-    public Connection createConnection() throws IOException, ClassNotFoundException, SQLException {
+    public static Connection createConnection() throws IOException, ClassNotFoundException, SQLException {
         Properties prop = new Properties();
         String host;
         String username;
         String password;
-        String driver;
+        Connection connection = null;
         try {
-        	String path = new File("config/db.properties")
+        	String path = new File(ConfigFile)
                     .getAbsolutePath();
-        	System.out.println(path);
             prop.load(new java.io.FileInputStream(path));
-  
             host = prop.getProperty("host").toString();
             username = prop.getProperty("username").toString();
             password = prop.getProperty("password").toString();
-            driver = prop.getProperty("driver").toString();
+            DriverManager.setLoginTimeout(LoginTimeout);
+            connection = DriverManager.getConnection(host, username, password);
+            
         } catch (IOException e) {
-            host = "Unknown HOST";
-            username = "Unknown USER";
-            password = "Unknown PASSWORD";
-            driver = "Unknown DRIVER";
+        	System.err.println(e.getMessage());
         }
-  
-        System.out.println("host: " + host + "\nusername: " + username + "\npassword: " + password + "\ndriver: " + driver);
-  
-        Class.forName(driver);
-        System.out.println("--------------------------");
-        System.out.println("DRIVER: " + driver);
-        System.out.println("Set Login Timeout: " + LoginTimeout);
-        DriverManager.setLoginTimeout(LoginTimeout);
-        Connection connection = DriverManager.getConnection(host, username, password);
-        System.out.println("CONNECTION: " + connection);
-  
         return connection;
     }
 }

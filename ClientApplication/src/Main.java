@@ -1,10 +1,10 @@
-import connection.DbManager;
+import installer.Installer;
 
 public class Main {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		new DbManager();
+		if(Installer.isWindows()) {
+			System.out.println("You are in Windows");
+		}
 	}
-
 }
