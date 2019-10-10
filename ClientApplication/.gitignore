@@ -9,14 +9,12 @@ tmp/
 *.tmp
 *.bak
 *.swp
+database.properties
 *~.nib
 local.properties
 .settings/
 .loadpath
 .recommenders
-
-#Database config file
-ClientApplication/config/database.properties
 
 # External tool builders
 .externalToolBuilders/
