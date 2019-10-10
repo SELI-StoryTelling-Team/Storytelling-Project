@@ -10,7 +10,7 @@ import java.util.Properties;
 public class DbManager {
   
     public static final int LoginTimeout = 10;
-    private static final String ConfigFile = "config/db.properties";
+    private static final String ConfigFile = "config/database.properties";
   
     public static Connection createConnection() throws IOException, ClassNotFoundException, SQLException {
         Properties prop = new Properties();
