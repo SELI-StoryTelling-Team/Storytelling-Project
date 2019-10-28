@@ -17,7 +17,8 @@ class DBManagerTest {
 	
 	@BeforeEach
 	void setUp() throws Exception {
-		connection = DbManager.createConnection();
+		DbManager db = DbManager.getInstance();
+		connection = db.createConnection();
 	}
 
 	@AfterEach

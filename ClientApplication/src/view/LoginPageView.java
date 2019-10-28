@@ -1,9 +1,10 @@
 package view;
 
-import javafx.fxml.FXML;
 import javafx.geometry.*;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import application.Main;
 import controller.LoginPageController;
 
 public class LoginPageView extends GridPane {
@@ -52,8 +53,24 @@ public class LoginPageView extends GridPane {
         setControllerLoginAction();
 	}
 	
+	public void setEnable(boolean enable) {
+		for(Node node : getChildren()) {
+			node.setDisable(!enable);
+		}
+	}
+	
 	private void setControllerLoginAction() {
 		btnSubmit.setOnMouseClicked(args -> 
-		controller.onLoginAction(tfName.getText(), pfPwd.getText()));
+		{
+			setEnable(false);
+			controller.onLoginAction(valid -> 
+			{
+				setEnable(true);
+				if(valid)
+					Main.hideLoginPage();
+			}, tfName.getText(), pfPwd.getText());
+			tfName.setText("");
+			pfPwd.setText("");
+		});
 	}
 }
